@@ -1,0 +1,109 @@
+<div class="contenedor">
+
+    <!-- Tarjeta Delantera -->
+    <section class="tarjeta" id="tarjeta" #card (click)="rotate(card)">
+        <div class="delantera">
+            <div class="logo-marca" id="logo-marca"></div>
+            <img src="assets/img/visa.png" class="chip" />
+            <div class="datos">
+                <div class="grupo">
+                    <p *ngIf="cardNumber !== ''" class="numero" id="numero">{{ cardNumber | creditoNumero }}</p>
+                    <p *ngIf="cardNumber == ''" class="numero" id="numero"> **** **** **** **** </p>
+                </div>
+                <div class="flexbox">
+                    <div class="grupo">
+                        <p *ngIf="cardName !== ''" class="nombre" id="nombre">{{ cardName | creditoNombre }}</p>
+                    </div>
+                    <div class="grupo" id="expiracion">
+                        <p class="label">Expiration</p>
+                        <p class="expiracion"><span id="expiration"> {{ expiration }} </span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tarjeta trasera -->
+        <div class="trasera">
+            <div class="barra-magnetica"></div>
+            <div class="datos">
+                <div class="grupo" id="ccv">
+                    <p class="label" id="cvvLabel"> CVV </p>
+                    <p class="ccvP text-end" id="codigo"> {{ cvv }} </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Para que abra automáticamente mi formulario -->
+    <div class="contenedor-btn">
+        <button class="btn-abrir-formulario" id="btn-abrir-formulario" (click)="displayForm()">
+            <i class="fas fa-plus"></i>
+        </button>
+    </div>
+
+   
+ <!-- Formulario -->
+ <form class="formulario-tarjeta" #formulario="ngForm" id="formulario-tarjeta" [hidden]="!formularioVisible">
+    <div class="grupo">
+        <label for="inputNombre">Nombre</label>
+        <input type="text" 
+       id="inputNombre" 
+       name="cardName"
+       [(ngModel)]="cardName"
+       maxlength="50"
+       autocomplete="off"
+       required>
+    </div>
+    <div class="grupo">
+        <label for="inputNumero">Número Tarjeta</label>
+        <input  type="text" 
+                id="inputNumero"
+                name="creditoNumero"
+                [(ngModel)]="cardNumber"
+                maxlength="16"
+                minlength="4"
+                pattern="^\d*$"
+                autocomplete="off" 
+                (keyup)="complete(formulario)"
+                required>
+    </div>
+
+    <div class="flexbox">
+        <div class="grupo expira">
+            <label for="selectMes">Expiración</label>
+            <input type="text"
+                   id="inputExpiracion"
+                   name="expiration"
+                   [(ngModel)]="expiration"
+                   placeholder="MM/YY"
+                   maxlength="5"
+                   required>
+        </div>
+        <div class="grupo ccv">
+            <label for="inputCCV">CVV</label>
+            <input type="text" 
+                   id="inputCCV"
+                   name="inputCCV"
+                   [(ngModel)]="cvv"
+                   placeholder=" "
+                   maxlength="3" 
+                   autocomplete="off"
+                   (click)="rellenarCVV()"
+                   required>
+        </div>
+    </div>
+    <div class="contenedor1">
+
+        <!-- Botones -->
+        <div class="button-container1">
+            <button type="button" class="btn btn-primary custom-btn" (click)="hacerPago()">Hacer Pago</button>
+            <button class="btn btn-secondary custom-btn" (click)="limpiarInputs()">Limpiar Campos</button>
+        </div>
+    </div>
+</form>
+</div>
+
+
+
+
+
